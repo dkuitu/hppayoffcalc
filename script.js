@@ -11,54 +11,18 @@ const daikinUnits = [
 ];
 
 
-// Populate Daikin units dropdown.
-const systemSelect = document.getElementById('system');
-daikinUnits.forEach((unit) => {
-  const option = document.createElement('option');
-  option.value = unit.id;
-  option.text = unit.name;
-  systemSelect.add(option);
+document.getElementById('calculator').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var squareFootage = e.target.elements.squareFootage.value;
+    var baseboardCostPerSqft = 1.0;  // Adjust based on actual cost
+    var heatPumpCostPerSqft = 0.6;   // Adjust based on actual cost
+
+    var baseboardAnnualCost = baseboardCostPerSqft * squareFootage;
+    var heatPumpAnnualCost = heatPumpCostPerSqft * squareFootage;
+    var savings = baseboardAnnualCost - heatPumpAnnualCost;
+
+    document.getElementById('results').textContent = 'Annual baseboard cost: $' + baseboardAnnualCost
+        + '. Annual heat pump cost: $' + heatPumpAnnualCost
+        + '. Potential annual savings: $' + savings + '.';
 });
-
-// Form submit event listener.
-document.getElementById('calc-form').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent page reload on form submit.
-  
-  const squareFootage = document.getElementById('squareFootage').value;
-  const insulationQuality = document.getElementById('insulationQuality').value;
-  const selectedSystemId = document.getElementById('system').value;
-  const rebateApplied = document.getElementById('rebate').checked;
-  
-  const selectedSystem = daikinUnits.find(unit => unit.id === selectedSystemId);
-  
-  const payoff = calculatePayoff(squareFootage, insulationQuality, selectedSystem, rebateApplied);
-  
-  alert(`Estimated payoff: $${payoff}`);
-});
-
-// Payoff calculation function.
-function calculatePayoff(squareFootage, insulationQuality, system, rebateApplied) {
-  // Constants
-  const costPerKwh = 0.12; // Assume electricity cost is $0.12 per kWh
-  const baseboardWattage = squareFootage * 10; // Assume each square foot requires 10W of heating power
-  const hoursPerYear = 8760; // Hours in a year
-
-  // Calculate yearly power consumption (kWh) for baseboard heater
-  const baseboardKwhPerYear = (baseboardWattage / 1000) * hoursPerYear;
-
-  // Calculate yearly power consumption (kWh) for heat pump
-  const heatPumpCOP = system.seer / 3.412; // Convert SEER to COP
-  const heatPumpWattage = baseboardWattage / heatPumpCOP;
-  const heatPumpKwhPerYear = (heatPumpWattage / 1000) * hoursPerYear;
-
-  // Calculate yearly cost for each
-  const baseboardCostPerYear = baseboardKwhPerYear * costPerKwh;
-  const heatPumpCostPerYear = heatPumpKwhPerYear * costPerKwh;
-
-  // Calculate savings and payoff time
-  const yearlySavings = baseboardCostPerYear - heatPumpCostPerYear;
-  const payoffTime = system.cost / yearlySavings;
-
-  return Math.ceil(payoffTime); // Round up to nearest whole year
-}
-
