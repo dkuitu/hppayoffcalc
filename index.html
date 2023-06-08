@@ -1,40 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Heat Pump Payoff Calculator</title>
-  <link rel="stylesheet" href="styles.css">
+    <title>Heat Pump Cost Calculator</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-
 <body>
-  <div class="container">
-    <h1>Heat Pump Payoff Calculator</h1>
-    <form id="calc-form">
-      <label for="squareFootage">Square Footage:</label>
-      <input type="number" id="squareFootage" required>
-
-      <label for="insulationQuality">Insulation Quality:</label>
-      <select id="insulationQuality" required>
-        <option value="terrible">Terrible</option>
-        <option value="bad">Bad</option>
-        <option value="fair">Fair</option>
-        <option value="ok">OK</option>
-        <option value="good">Good</option>
-        <option value="excellent">Excellent</option>
-      </select>
-
-      <label for="system">Select Your System:</label>
-      <select id="system" required></select>
-
-      <label for="rebate">Apply Rebate:</label>
-      <input type="checkbox" id="rebate">
-
-      <button type="submit" id="calculate">Calculate</button>
+    <h1>Heat Pump Cost Calculator</h1>
+    <form id="calculator">
+        <label for="squareFootage">Square footage of your home:</label><br>
+        <input type="number" id="squareFootage" name="squareFootage"><br>
+        <input type="submit" value="Calculate">
     </form>
-  </div>
-  <script src="script.js"></script>
+    <div id="results"></div>
+    <script src="calculator.js"></script>
 </body>
-
 </html>
