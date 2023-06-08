@@ -1,9 +1,15 @@
 // Mock data for Daikin units. Replace with your actual data.
 const daikinUnits = [
-  { id: 'unit1', name: 'Unit 1', seer: 16, hspf: 9, btu: 12000, lineSetSize: '1/4-3/8', cost: 1800 },
-  { id: 'unit2', name: 'Unit 2', seer: 18, hspf: 10, btu: 18000, lineSetSize: '1/4-1/2', cost: 2200 },
-  // Add more units as necessary.
+  { id: 'RX09', name: 'Daikin RX09', seer: 16, hspf: 9, btu: 9000, lineSetSize: '1/4-3/8', cost: 1800 },
+  { id: 'RX24', name: 'Daikin RX24', seer: 18, hspf: 10, btu: 24000, lineSetSize: '1/4-1/2', cost: 2200 },
+  { id: 'RK09', name: 'Daikin RK09', seer: 17, hspf: 8.5, btu: 9000, lineSetSize: '1/4-3/8', cost: 1700 },
+  { id: 'RK24', name: 'Daikin RK24', seer: 19, hspf: 9.5, btu: 24000, lineSetSize: '1/4-1/2', cost: 2300 },
+  { id: 'FTK09', name: 'Daikin FTK09', seer: 20, hspf: 10, btu: 9000, lineSetSize: '1/4-3/8', cost: 2000 },
+  { id: 'FTK24', name: 'Daikin FTK24', seer: 21, hspf: 11, btu: 24000, lineSetSize: '1/4-1/2', cost: 2500 },
+  { id: 'FTX09', name: 'Daikin FTX09', seer: 22, hspf: 10.5, btu: 9000, lineSetSize: '1/4-3/8', cost: 2100 },
+  { id: 'FTX24', name: 'Daikin FTX24', seer: 23, hspf: 11.5, btu: 24000, lineSetSize: '1/4-1/2', cost: 2600 },
 ];
+
 
 // Populate Daikin units dropdown.
 const systemSelect = document.getElementById('system');
@@ -32,7 +38,27 @@ document.getElementById('calc-form').addEventListener('submit', function(event) 
 
 // Payoff calculation function.
 function calculatePayoff(squareFootage, insulationQuality, system, rebateApplied) {
-  // Add your calculation logic here.
-  // For now, it just returns a random number.
-  return Math.floor(Math.random() * 10000);
+  // Constants
+  const costPerKwh = 0.12; // Assume electricity cost is $0.12 per kWh
+  const baseboardWattage = squareFootage * 10; // Assume each square foot requires 10W of heating power
+  const hoursPerYear = 8760; // Hours in a year
+
+  // Calculate yearly power consumption (kWh) for baseboard heater
+  const baseboardKwhPerYear = (baseboardWattage / 1000) * hoursPerYear;
+
+  // Calculate yearly power consumption (kWh) for heat pump
+  const heatPumpCOP = system.seer / 3.412; // Convert SEER to COP
+  const heatPumpWattage = baseboardWattage / heatPumpCOP;
+  const heatPumpKwhPerYear = (heatPumpWattage / 1000) * hoursPerYear;
+
+  // Calculate yearly cost for each
+  const baseboardCostPerYear = baseboardKwhPerYear * costPerKwh;
+  const heatPumpCostPerYear = heatPumpKwhPerYear * costPerKwh;
+
+  // Calculate savings and payoff time
+  const yearlySavings = baseboardCostPerYear - heatPumpCostPerYear;
+  const payoffTime = system.cost / yearlySavings;
+
+  return Math.ceil(payoffTime); // Round up to nearest whole year
 }
+
