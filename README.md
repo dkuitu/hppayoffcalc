@@ -20,7 +20,7 @@ This is a web-based calculator designed to calculate the payoff period for a hea
 Clone the repository to your local machine:
 
 ```
-git clone https://github.com/yourusername/heat-pump-payoff-calculator.git
+git clone [https://github.com/yourusername/heat-pump-payoff-calculator.git](https://github.com/dkuitu/hppayoffcalc.git)
 ```
 
 Then, open the index.html file in a web browser.
