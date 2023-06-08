@@ -27,11 +27,7 @@ Then, open the index.html file in a web browser.
 
 ## Usage
 
-1. Input the square footage of your house.
-2. Select the insulation quality from the dropdown menu.
-3. Select your Daikin unit from the dropdown menu.
-4. Check the rebate checkbox if you want to apply a rebate.
-5. Click on "Calculate" to get the estimated payoff period.
+TODO
 
 Please note: The calculation is a placeholder and needs to be replaced with actual calculation logic.
 
