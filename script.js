@@ -1,28 +1,38 @@
-// Mock data for Daikin units. Replace with your actual data.
-const daikinUnits = [
-  { id: 'RX09', name: 'Daikin RX09', seer: 16, hspf: 9, btu: 9000, lineSetSize: '1/4-3/8', cost: 1800 },
-  { id: 'RX24', name: 'Daikin RX24', seer: 18, hspf: 10, btu: 24000, lineSetSize: '1/4-1/2', cost: 2200 },
-  { id: 'RK09', name: 'Daikin RK09', seer: 17, hspf: 8.5, btu: 9000, lineSetSize: '1/4-3/8', cost: 1700 },
-  { id: 'RK24', name: 'Daikin RK24', seer: 19, hspf: 9.5, btu: 24000, lineSetSize: '1/4-1/2', cost: 2300 },
-  { id: 'FTK09', name: 'Daikin FTK09', seer: 20, hspf: 10, btu: 9000, lineSetSize: '1/4-3/8', cost: 2000 },
-  { id: 'FTK24', name: 'Daikin FTK24', seer: 21, hspf: 11, btu: 24000, lineSetSize: '1/4-1/2', cost: 2500 },
-  { id: 'FTX09', name: 'Daikin FTX09', seer: 22, hspf: 10.5, btu: 9000, lineSetSize: '1/4-3/8', cost: 2100 },
-  { id: 'FTX24', name: 'Daikin FTX24', seer: 23, hspf: 11.5, btu: 24000, lineSetSize: '1/4-1/2', cost: 2600 },
+const heatPumpData = [
+  {id: 'rx09', name: 'Daikin RX09', seer: 14.5, hspf: 8.5, unitCost: 2000, tonnage: 0.75},
+  {id: 'rx12', name: 'Daikin RX12', seer: 14.5, hspf: 8.5, unitCost: 2200, tonnage: 1.0},
+  {id: 'rx18', name: 'Daikin RX18', seer: 15.5, hspf: 9.0, unitCost: 2500, tonnage: 1.5},
+  {id: 'rx24', name: 'Daikin RX24', seer: 15.5, hspf: 9.0, unitCost: 2800, tonnage: 2.0},
 ];
 
+// Populate heat pump systems in the dropdown
+const heatpumpSystemSelect = document.getElementById('heatpumpSystem');
+heatPumpData.forEach((system) => {
+  const option = document.createElement('option');
+  option.value = system.id;
+  option.text = system.name;
+  heatpumpSystemSelect.appendChild(option);
+});
 
-document.getElementById('calculator').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Handle form submission
+document.getElementById('costCalculator').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const coolingHours = document.getElementById('coolingHours').value;
+  const heatingHours = document.getElementById('heatingHours').value;
+  const electricityCost = document.getElementById('electricityCost').value;
+  const baseboardHeatingCost = document.getElementById('baseboardHeatingCost').value;
+  const selectedHeatPumpId = document.getElementById('heatpumpSystem').value;
+  const selectedHeatPump = heatPumpData.find((system) => system.id === selectedHeatPumpId);
 
-    var squareFootage = e.target.elements.squareFootage.value;
-    var baseboardCostPerSqft = 1.0;  // Adjust based on actual cost
-    var heatPumpCostPerSqft = 0.6;   // Adjust based on actual cost
+  // Calculate costs
+  const coolingCost = calculateCoolingCost(coolingHours, electricityCost, selectedHeatPump.seer);
+  const heatingCost = calculateHeatingCost(heatingHours, electricityCost, selectedHeatPump.hspf);
+  const totalAnnualCost = coolingCost + heatingCost;
+  
+  // Display results
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').textContent = `Total Annual Cost: ${totalAnnualCost.toFixed(2)}`;
 
-    var baseboardAnnualCost = baseboardCostPerSqft * squareFootage;
-    var heatPumpAnnualCost = heatPumpCostPerSqft * squareFootage;
-    var savings = baseboardAnnualCost - heatPumpAnnualCost;
-
-    document.getElementById('results').textContent = 'Annual baseboard cost: $' + baseboardAnnualCost
-        + '. Annual heat pump cost: $' + heatPumpAnnualCost
-        + '. Potential annual savings: $' + savings + '.';
+  // Draw graph
+  drawCostGraph(baseboardHeatingCost, totalAnnualCost);
 });
