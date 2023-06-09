@@ -14,6 +14,7 @@ main {
   padding: 20px;
   background-color: white;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  max-width: 1000px; /* Add a max width */
 }
 
 h1 {
@@ -63,7 +64,55 @@ button:hover {
   display: none;
 }
 
-#costGraph {
-  margin-top: 20px;
-  height: 300px;
+#heatpumpSelection {
+  display: flex;
+  align-items: center;
 }
+
+#heatpumpSelection button {
+  margin-left: 10px;
+}
+
+.heatpump {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
+  position: relative;
+}
+
+.heatpump .remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: red;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* Display heatpumps in comparisons as cards */
+.heatpump-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
+  position: relative;
+}
+
+.heatpump-card .remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: red;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.heatpump-card .remove:hover {
+  background: darkred;
+}
+
+
