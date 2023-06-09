@@ -1,17 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Heat Pump Cost Calculator</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Heat Pump Cost Calculator</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <main>
     <h1>Heat Pump Cost Calculator</h1>
-    <form id="calculator">
-        <label for="squareFootage">Square footage of your home:</label><br>
-        <input type="number" id="squareFootage" name="squareFootage"><br>
-        <input type="submit" value="Calculate">
+
+    <form id="costCalculator">
+      <div class="input-group">
+        <label for="coolingHours">Cooling Hours:</label>
+        <input type="number" id="coolingHours" name="coolingHours">
+      </div>
+
+      <div class="input-group">
+        <label for="heatingHours">Heating Hours:</label>
+        <input type="number" id="heatingHours" name="heatingHours">
+      </div>
+
+      <div class="input-group">
+        <label for="electricityCost">Electricity Cost:</label>
+        <input type="number" id="electricityCost" name="electricityCost">
+      </div>
+
+      <div class="input-group">
+        <label for="baseboardHeatingCost">Baseboard Heating Annual Cost:</label>
+        <input type="number" id="baseboardHeatingCost" name="baseboardHeatingCost">
+      </div>
+
+      <div class="input-group">
+        <label for="heatpumpSystem">Heat Pump System:</label>
+        <select id="heatpumpSystem" name="heatpumpSystem">
+          <!-- Options will be populated using JavaScript -->
+        </select>
+      </div>
+
+      <button type="submit">Calculate</button>
     </form>
-    <div id="results"></div>
-    <script src="calculator.js"></script>
+
+    <div id="results">
+      <!-- Results will be populated using JavaScript -->
+    </div>
+
+    <canvas id="costGraph">
+      <!-- Graph will be drawn using chart.js -->
+    </canvas>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
